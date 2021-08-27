@@ -1,18 +1,39 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1>home</h1>
+    <Search />
+    <div class="row">
+      <div
+        class="col-12 col-sm-6 col-md-6 col-lg-4 align-items-center"
+        v-for="(item, index) in $store.getters.getProductos"
+        :key="index"
+      >
+        <Card :productos="item" :index="index"
+          ><button class="btn propio col-12" @click="addProductToCart(item)">
+            Add
+          </button></Card
+        >
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapActions } from "vuex";
+import Card from "../components/Card.vue";
+import Search from "../components/Search.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    Card,
+    Search,
+  },
+  methods: {
+    ...mapActions(["buscar", "addProductToCart"]),
+  },
+  mounted() {
+    this.buscar("");
+  },
+};
 </script>
